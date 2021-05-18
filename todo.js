@@ -1,17 +1,31 @@
-let addToDoButton = document.getElementById('addToDo');
-let toDoContainer = document.getElementById('toDoContainer');
-let inputField = document.getElementById('inputField');
+document.getElementById('addToDo')
+    .addEventListener('click', function () {
+        const toDoContainer = document.getElementById('toDoContainer');
+        const inputField = document.getElementById('inputField');
+        const todo = createTodo(inputField.value)
+        toDoContainer.appendChild(todo);
+        inputField.value = "";
+    })
 
-addToDoButton.addEventListener('click', function(){
-    var paragraph = document.createElement('p');
-    paragraph.classList.add('paragraph-styling');
-    paragraph.innerText = inputField.value;
-    toDoContainer.appendChild(paragraph);
-    inputField.value = "";
-    paragraph.addEventListener('click', function(){
-        paragraph.style.textDecoration = "line-through";
+function createTodo(text) {
+    let todoParagraph = document.createElement('p');
+    todoParagraph.classList.add('paragraph-styling');
+    todoParagraph.innerText = text;
+    todoParagraph = addToggleTodo(todoParagraph);
+    todoParagraph = addDeleteTodo(todoParagraph);
+    return todoParagraph;
+}
+
+function addToggleTodo(todo) {
+    todo.addEventListener('click', function () {
+        todo.classList.toggle("completed");
     })
-    paragraph.addEventListener('dblclick', function(){
-        toDoContainer.removeChild(paragraph);
+    return todo;
+}
+
+function addDeleteTodo(todo) {
+    todo.addEventListener('dblclick', function () {
+        todo.remove();
     })
-})
+    return todo;
+}
